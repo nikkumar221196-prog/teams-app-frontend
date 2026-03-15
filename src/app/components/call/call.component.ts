@@ -30,24 +30,19 @@ export class CallComponent implements OnInit, OnDestroy {
     // ICE servers with STUN + free TURN for cross-network calls
     this.pc = new RTCPeerConnection({
       iceServers: [
-        { urls: 'stun:stun.l.google.com:19302' },
-        { urls: 'stun:stun1.l.google.com:19302' },
+        { urls: 'stun:stun.relay.metered.ca:80' },
         {
-          urls: 'turn:openrelay.metered.ca:80',
-          username: 'openrelayproject',
-          credential: 'openrelayproject'
-        },
-        {
-          urls: 'turn:openrelay.metered.ca:443',
-          username: 'openrelayproject',
-          credential: 'openrelayproject'
-        },
-        {
-          urls: 'turn:openrelay.metered.ca:443?transport=tcp',
-          username: 'openrelayproject',
-          credential: 'openrelayproject'
+          urls: [
+            'turn:global.relay.metered.ca:80',
+            'turn:global.relay.metered.ca:80?transport=tcp',
+            'turn:global.relay.metered.ca:443',
+            'turns:global.relay.metered.ca:443?transport=tcp'
+          ],
+          username: '03e30e749faba492217cea6e',
+          credential: 'n5cHnbrcc+rkdXL/'
         }
-      ]
+      ],
+      iceCandidatePoolSize: 10
     });
 
     this.pc.onicecandidate = (e) => {
