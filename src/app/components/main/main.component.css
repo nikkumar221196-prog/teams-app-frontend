@@ -24,17 +24,10 @@
   font-weight: 600; font-size: 14px; cursor: pointer; margin-bottom: 8px;
 }
 .main-area {
-  flex: 1; display: flex; flex-direction: column; background: #fff; overflow: hidden;
+  flex: 1; display: flex; flex-direction: column; background: #fff; 
+  overflow: hidden; min-height: 0;
 }
 
-@media (max-width: 768px) {
-  .main-area {
-    position: fixed;
-    top: 0; left: 0; right: 0;
-    bottom: 56px;
-    overflow: hidden;
-  }
-}
 .empty-state {
   flex: 1; display: flex; flex-direction: column; align-items: center;
   justify-content: center; color: #605e5c; gap: 12px;
@@ -44,10 +37,15 @@
 
 /* Mobile styles */
 @media (max-width: 768px) {
+  .app-shell {
+    flex-direction: column;
+    height: 100vh;
+  }
   .nav-rail {
     width: 100%; height: 56px; flex-direction: row;
     position: fixed; bottom: 0; left: 0; right: 0; z-index: 100;
     padding: 0 8px; justify-content: space-around;
+    flex-shrink: 0;
   }
   .nav-logo { display: none; }
   .nav-btn { width: auto; padding: 6px 12px; font-size: 10px; }
@@ -56,8 +54,9 @@
   .nav-avatar {
     width: 28px; height: 28px; font-size: 12px; margin-bottom: 0;
   }
-  .app-shell {
-    flex-direction: column;
-    padding-bottom: 56px;
+  .main-area {
+    height: calc(100vh - 56px);
+    overflow: hidden;
+    flex: none;
   }
 }
