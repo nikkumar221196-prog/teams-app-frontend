@@ -46,13 +46,21 @@
       📎
       <input type="file" (change)="onFileSelect($event)" hidden>
     </label>
-    <input
-      type="text"
-      [(ngModel)]="newMessage"
-      placeholder="Type a new message"
-      (keyup.enter)="send()"
-      class="msg-input"
-    />
+    <button class="emoji-btn" title="Add emoji" (click)="showEmojiPicker = !showEmojiPicker">😊</button>
+    <div class="input-wrapper">
+      <input
+        type="text"
+        [(ngModel)]="newMessage"
+        placeholder="Type a new message"
+        (keyup.enter)="send()"
+        class="msg-input"
+      />
+      <div *ngIf="showEmojiPicker" class="emoji-picker">
+        <div class="emoji-grid">
+          <span *ngFor="let emoji of commonEmojis" (click)="addEmoji(emoji)" class="emoji-item">{{ emoji }}</span>
+        </div>
+      </div>
+    </div>
     <button (click)="send()" class="send-btn">➤</button>
   </div>
 </div>

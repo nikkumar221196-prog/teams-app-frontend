@@ -24,6 +24,7 @@ export class MainComponent implements OnInit, OnDestroy {
   unreadCounts: { [userName: string]: number } = {};
   allMessages: any[] = [];
   showChat = false; // mobile: toggle between sidebar and chat
+  showLogoutPopup = false;
 
   isMobile(): boolean {
     return window.innerWidth <= 768;
@@ -55,8 +56,31 @@ export class MainComponent implements OnInit, OnDestroy {
       error: (err) => console.error('Failed to load message history:', err)
     });
 
-    this.socketService.users$.subscribe(users => {
-      this.users = users.filter(u => u.name !== this.currentUser);
+    // Load all users from database (including offline ones with last_seen)
+    this.http.get<any>(`${environment.apiUrl}/api/auth/users/${organization}`).subscribe({
+      next: (response) => {
+        const allUsers = response || [];
+        // Filter out current user
+        this.users = allUsers.filter((u: any) => u.name !== this.currentUser);
+      },
+      error: (err) => console.error('Failed to load users:', err)
+    });
+
+    this.socketService.users$.subscribe(onlineUsers => {
+      // Update online status for users
+      this.users.forEach(user => {
+        const isOnline = onlineUsers.some((ou: any) => ou.name === user.name);
+        if (isOnline) {
+          user.last_seen = null; // Clear last_seen for online users
+        }
+      });
+      
+      // Add any new online users not in our list
+      onlineUsers.forEach((onlineUser: any) => {
+        if (onlineUser.name !== this.currentUser && !this.users.find(u => u.name === onlineUser.name)) {
+          this.users.push(onlineUser);
+        }
+      });
     });
 
     this.socketService.messages$.subscribe(msg => {
@@ -132,6 +156,13 @@ export class MainComponent implements OnInit, OnDestroy {
 
   getUnreadCount(userName: string): number {
     return this.unreadCounts[userName] || 0;
+  }
+
+  logout() {
+    this.socketService.disconnect();
+    this.userService.name = '';
+    this.userService.organization = '';
+    this.router.navigate(['/']);
   }
 
   onCallEnd() { this.activeCall = null; }

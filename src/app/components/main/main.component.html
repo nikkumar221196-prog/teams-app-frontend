@@ -5,14 +5,8 @@
     <button class="nav-btn active" title="Chat">
       <span class="icon">💬</span><span class="label">Chat</span>
     </button>
-    <button class="nav-btn" title="Calls">
-      <span class="icon">📞</span><span class="label">Calls</span>
-    </button>
-    <button class="nav-btn" title="Files">
-      <span class="icon">📁</span><span class="label">Files</span>
-    </button>
     <div class="nav-spacer"></div>
-    <div class="nav-avatar" [title]="currentUser">
+    <div class="nav-avatar" [title]="currentUser" (click)="showLogoutPopup = true">
       {{ currentUser.charAt(0).toUpperCase() }}
     </div>
   </nav>
@@ -54,5 +48,19 @@
       [currentUser]="currentUser"
       (callEnd)="onCallEnd()">
     </app-call>
+  }
+
+  <!-- Logout popup -->
+  @if (showLogoutPopup) {
+    <div class="logout-overlay" (click)="showLogoutPopup = false">
+      <div class="logout-popup" (click)="$event.stopPropagation()">
+        <h3>Sign out</h3>
+        <p>Are you sure you want to sign out?</p>
+        <div class="popup-actions">
+          <button class="btn-cancel" (click)="showLogoutPopup = false">Cancel</button>
+          <button class="btn-logout" (click)="logout()">Sign out</button>
+        </div>
+      </div>
+    </div>
   }
 </div>

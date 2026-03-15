@@ -27,9 +27,20 @@ export class ChatComponent implements OnInit, OnChanges, OnDestroy {
   newMessage = '';
   apiUrl = environment.apiUrl;
   private sub!: Subscription;
+  showEmojiPicker = false;
+  commonEmojis = ['😊', '😂', '❤️', '👍', '👎', '😢', '😮', '😡', '🎉', '🔥', '💯', '👏', '🙏', '💪', '✨', '🎯', '💡', '🚀', '⭐', '🎊'];
 
   constructor(private socketService: SocketService, private http: HttpClient) {
     console.log('ChatComponent constructor called');
+    
+    // Handle mobile back button
+    if (typeof window !== 'undefined') {
+      window.addEventListener('popstate', () => {
+        if (this.isMobile) {
+          this.goBack.emit();
+        }
+      });
+    }
   }
 
   ngOnInit() {
@@ -113,6 +124,11 @@ export class ChatComponent implements OnInit, OnChanges, OnDestroy {
 
   trackByMsgId(index: number, msg: any): any {
     return msg.id || index;
+  }
+
+  addEmoji(emoji: string) {
+    this.newMessage += emoji;
+    this.showEmojiPicker = false;
   }
 
   onDeleteMessage(messageId: number) {
