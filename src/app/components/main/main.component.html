@@ -1,6 +1,6 @@
 <div class="app-shell">
   <!-- Left nav rail -->
-  <nav class="nav-rail">
+  <nav class="nav-rail" [class.hidden]="isMobile() && showChat">
     <div class="nav-logo">T</div>
     <button class="nav-btn active" title="Chat">
       <span class="icon">💬</span><span class="label">Chat</span>
