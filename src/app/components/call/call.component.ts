@@ -26,11 +26,42 @@ export class CallComponent implements OnInit, OnDestroy {
 
   async ngOnInit() {
     this.isVideo = this.callData?.type === 'video';
-    this.pc = new RTCPeerConnection({ iceServers: [{ urls: 'stun:stun.l.google.com:19302' }] });
+
+    // ICE servers with STUN + free TURN for cross-network calls
+    this.pc = new RTCPeerConnection({
+      iceServers: [
+        { urls: 'stun:stun.l.google.com:19302' },
+        { urls: 'stun:stun1.l.google.com:19302' },
+        {
+          urls: 'turn:openrelay.metered.ca:80',
+          username: 'openrelayproject',
+          credential: 'openrelayproject'
+        },
+        {
+          urls: 'turn:openrelay.metered.ca:443',
+          username: 'openrelayproject',
+          credential: 'openrelayproject'
+        },
+        {
+          urls: 'turn:openrelay.metered.ca:443?transport=tcp',
+          username: 'openrelayproject',
+          credential: 'openrelayproject'
+        }
+      ]
+    });
 
     this.pc.onicecandidate = (e) => {
       if (e.candidate) {
         this.socketService.sendIceCandidate(this.callData.to || this.callData.from, e.candidate);
+      }
+    };
+
+    this.pc.onconnectionstatechange = () => {
+      console.log('Connection state:', this.pc.connectionState);
+      if (this.pc.connectionState === 'connected') {
+        this.callStatus = 'Connected';
+      } else if (this.pc.connectionState === 'failed') {
+        this.callStatus = 'Call failed - check network';
       }
     };
 

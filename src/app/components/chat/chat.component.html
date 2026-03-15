@@ -1,6 +1,7 @@
 <div class="chat-container">
   <div class="chat-header">
     <div class="header-user">
+      <button *ngIf="isMobile" class="back-btn" (click)="goBack.emit()">←</button>
       <div class="avatar">{{ getInitial(selectedUser?.name) }}</div>
       <div>
         <div class="user-name">{{ selectedUser?.name }}</div>

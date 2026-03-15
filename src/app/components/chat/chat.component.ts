@@ -17,8 +17,10 @@ export class ChatComponent implements OnInit, OnChanges, OnDestroy {
   @Input() currentUser = '';
   @Input() selectedUser: any = null;
   @Input() allMessages: any[] = [];
+  @Input() isMobile = false;
   @Output() startCall = new EventEmitter<any>();
   @Output() deleteMessage = new EventEmitter<number>();
+  @Output() goBack = new EventEmitter<void>();
   @ViewChild('msgEnd') msgEnd!: ElementRef;
 
   messages: any[] = [];

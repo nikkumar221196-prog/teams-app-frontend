@@ -5,6 +5,11 @@
   padding: 12px 20px; border-bottom: 1px solid #e1dfdd; background: #fff;
 }
 .header-user { display: flex; align-items: center; gap: 12px; }
+.back-btn {
+  background: none; border: none; font-size: 22px; cursor: pointer;
+  color: #6264a7; padding: 4px 8px; border-radius: 4px; font-weight: bold;
+}
+.back-btn:hover { background: #f3f2f1; }
 .avatar {
   width: 36px; height: 36px; border-radius: 50%; background: #6264a7;
   color: #fff; display: flex; align-items: center; justify-content: center;

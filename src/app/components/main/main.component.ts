@@ -22,7 +22,12 @@ export class MainComponent implements OnInit, OnDestroy {
   activeCall: any = null;
   currentUser = '';
   unreadCounts: { [userName: string]: number } = {};
-  allMessages: any[] = []; // Store all messages here
+  allMessages: any[] = [];
+  showChat = false; // mobile: toggle between sidebar and chat
+
+  isMobile(): boolean {
+    return window.innerWidth <= 768;
+  }
 
   constructor(
     public userService: UserService,
@@ -110,14 +115,19 @@ export class MainComponent implements OnInit, OnDestroy {
   }
 
   selectUser(user: any) { 
-    console.log('Main: selectUser called with:', user);
     this.selectedUser = user;
-    // Clear unread count for this user
     const userName = user.name || user;
     if (this.unreadCounts[userName]) {
       this.unreadCounts[userName] = 0;
     }
-    console.log('Main: selectedUser is now:', this.selectedUser);
+    if (this.isMobile()) {
+      this.showChat = true;
+    }
+  }
+
+  backToSidebar() {
+    this.showChat = false;
+    this.selectedUser = null;
   }
 
   getUnreadCount(userName: string): number {

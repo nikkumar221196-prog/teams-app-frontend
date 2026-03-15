@@ -17,8 +17,9 @@
     </div>
   </nav>
 
-  <!-- Sidebar: user list -->
+  <!-- Sidebar: hidden on mobile when chat is open -->
   <app-sidebar
+    *ngIf="!isMobile() || !showChat"
     [users]="users"
     [currentUser]="currentUser"
     [selectedUser]="selectedUser"
@@ -27,14 +28,16 @@
   </app-sidebar>
 
   <!-- Main chat area -->
-  <main class="main-area">
+  <main class="main-area" *ngIf="!isMobile() || showChat">
     @if (selectedUser) {
       <app-chat
         [currentUser]="currentUser"
         [selectedUser]="selectedUser"
         [allMessages]="allMessages"
+        [isMobile]="isMobile()"
         (startCall)="activeCall = $event"
-        (deleteMessage)="deleteMessage($event)">
+        (deleteMessage)="deleteMessage($event)"
+        (goBack)="backToSidebar()">
       </app-chat>
     } @else {
       <div class="empty-state">
