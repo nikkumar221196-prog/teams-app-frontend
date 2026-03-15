@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://YOUR-RENDER-APP-NAME.onrender.com'
+  apiUrl: 'https://teams-app-backend.onrender.com'
 };
