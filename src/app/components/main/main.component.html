@@ -1,0 +1,55 @@
+<div class="app-shell">
+  <!-- Left nav rail -->
+  <nav class="nav-rail">
+    <div class="nav-logo">T</div>
+    <button class="nav-btn active" title="Chat">
+      <span class="icon">💬</span><span class="label">Chat</span>
+    </button>
+    <button class="nav-btn" title="Calls">
+      <span class="icon">📞</span><span class="label">Calls</span>
+    </button>
+    <button class="nav-btn" title="Files">
+      <span class="icon">📁</span><span class="label">Files</span>
+    </button>
+    <div class="nav-spacer"></div>
+    <div class="nav-avatar" [title]="currentUser">
+      {{ currentUser.charAt(0).toUpperCase() }}
+    </div>
+  </nav>
+
+  <!-- Sidebar: user list -->
+  <app-sidebar
+    [users]="users"
+    [currentUser]="currentUser"
+    [selectedUser]="selectedUser"
+    [unreadCounts]="unreadCounts"
+    (userSelected)="selectUser($event)">
+  </app-sidebar>
+
+  <!-- Main chat area -->
+  <main class="main-area">
+    @if (selectedUser) {
+      <app-chat
+        [currentUser]="currentUser"
+        [selectedUser]="selectedUser"
+        [allMessages]="allMessages"
+        (startCall)="activeCall = $event"
+        (deleteMessage)="deleteMessage($event)">
+      </app-chat>
+    } @else {
+      <div class="empty-state">
+        <span>👋</span>
+        <p>Select a person to start chatting</p>
+      </div>
+    }
+  </main>
+
+  <!-- Call overlay -->
+  @if (activeCall) {
+    <app-call
+      [callData]="activeCall"
+      [currentUser]="currentUser"
+      (callEnd)="onCallEnd()">
+    </app-call>
+  }
+</div>

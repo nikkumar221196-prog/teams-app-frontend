@@ -1,0 +1,57 @@
+<div class="chat-container">
+  <div class="chat-header">
+    <div class="header-user">
+      <div class="avatar">{{ getInitial(selectedUser?.name) }}</div>
+      <div>
+        <div class="user-name">{{ selectedUser?.name }}</div>
+        <div class="status">Online</div>
+      </div>
+    </div>
+    <div class="header-actions">
+      <button (click)="initiateCall('audio')" title="Audio call" class="action-btn">📞</button>
+      <button (click)="initiateCall('video')" title="Video call" class="action-btn">📹</button>
+    </div>
+  </div>
+
+  <div class="messages-area">
+    <div *ngFor="let msg of messages; trackBy: trackByMsgId" 
+         class="message-row" 
+         [ngClass]="{'mine': isMine(msg), 'theirs': !isMine(msg)}">
+      <div *ngIf="!isMine(msg)" class="avatar-small">{{ getInitial(msg.from) }}</div>
+      <div class="bubble-wrap">
+        <div *ngIf="!isMine(msg)" class="sender-name">{{ msg.from }}</div>
+        <div class="bubble-container">
+          <div class="bubble" [ngClass]="{'bubble-mine': isMine(msg), 'bubble-theirs': !isMine(msg)}">
+            <span *ngIf="!msg.attachment">{{ msg.text }}</span>
+            <a *ngIf="msg.attachment" 
+               [href]="apiUrl + msg.attachment" 
+               target="_blank" 
+               class="attachment-link">
+              📎 {{ msg.text?.replace('📎 ', '') }}
+            </a>
+          </div>
+          <button *ngIf="isMine(msg)" class="delete-btn" (click)="onDeleteMessage(msg.id)" title="Delete message">
+            🗑️
+          </button>
+        </div>
+        <div class="timestamp">{{ formatTime(msg.timestamp) }}</div>
+      </div>
+    </div>
+    <div #msgEnd></div>
+  </div>
+
+  <div class="input-bar">
+    <label class="attach-btn" title="Attach file">
+      📎
+      <input type="file" (change)="onFileSelect($event)" hidden>
+    </label>
+    <input
+      type="text"
+      [(ngModel)]="newMessage"
+      placeholder="Type a new message"
+      (keyup.enter)="send()"
+      class="msg-input"
+    />
+    <button (click)="send()" class="send-btn">➤</button>
+  </div>
+</div>

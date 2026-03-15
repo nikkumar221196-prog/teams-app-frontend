@@ -1,0 +1,22 @@
+<div class="call-overlay">
+  <div class="call-modal">
+    <div class="call-header">
+      <span class="call-icon">{{ isVideo ? '📹' : '📞' }}</span>
+      <span class="call-status">{{ callStatus }}</span>
+    </div>
+
+    @if (isVideo) {
+      <div class="video-area">
+        <video #remoteVideo autoplay playsinline class="remote-video"></video>
+        <video #localVideo autoplay playsinline muted class="local-video"></video>
+      </div>
+    }
+
+    <div class="call-actions">
+      @if (callData?.incoming && callStatus !== 'Connected') {
+        <button (click)="acceptCall()" class="btn-accept">✅ Accept</button>
+      }
+      <button (click)="endCall()" class="btn-end">📵 End</button>
+    </div>
+  </div>
+</div>

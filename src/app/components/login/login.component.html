@@ -1,0 +1,30 @@
+<div class="login-wrapper">
+  <div class="login-box">
+    <div class="logo">
+      <span class="logo-icon">T</span>
+      <span class="logo-text">Teams</span>
+    </div>
+    <h2>Sign in</h2>
+    <p class="subtitle">Enter your details to get started</p>
+    
+    <input
+      type="text"
+      [(ngModel)]="organization"
+      placeholder="Organization"
+      (keyup.enter)="login()"
+      class="name-input"
+      autofocus
+    />
+    
+    <input
+      type="text"
+      [(ngModel)]="name"
+      placeholder="Your name"
+      (keyup.enter)="login()"
+      class="name-input"
+    />
+    
+    <p class="error" *ngIf="error">{{ error }}</p>
+    <button (click)="login()" class="btn-signin">Sign in</button>
+  </div>
+</div>

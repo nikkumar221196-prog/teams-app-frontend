@@ -1,0 +1,15 @@
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f3f2f1; height: 100vh; overflow: hidden; }
+
+/* Teams-like color palette */
+:root {
+  --teams-purple: #6264a7;
+  --teams-dark: #201f1e;
+  --teams-sidebar-bg: #f3f2f1;
+  --teams-nav-bg: #201f1e;
+  --teams-chat-bg: #ffffff;
+  --teams-border: #e1dfdd;
+  --teams-hover: #edebe9;
+  --teams-active: #e8e6e4;
+  --online-green: #6bb700;
+}

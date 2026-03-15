@@ -1,0 +1,34 @@
+<div class="sidebar">
+  <div class="sidebar-header">
+    <span class="title">Chat</span>
+    <button class="new-chat-btn" title="New chat">✏️</button>
+  </div>
+
+  <div class="user-list">
+    <div *ngFor="let user of users"
+         class="user-item"
+         [class.active]="selectedUser?.name === user.name"
+         (click)="select(user)">
+      <div class="avatar">
+        {{ getInitial(user.name) }}
+        <span class="status-dot online"></span>
+      </div>
+      <div class="user-info">
+        <div class="user-name-row">
+          <div class="user-name">{{ user.name }}</div>
+          <span *ngIf="getUnreadCount(user.name) > 0" class="unread-badge">
+            {{ getUnreadCount(user.name) }}
+          </span>
+        </div>
+        <div *ngIf="user.last_seen" class="last-seen">
+          Last seen: {{ formatTime(user.last_seen) }}
+        </div>
+        <div *ngIf="!user.last_seen" class="last-seen">Online</div>
+      </div>
+    </div>
+
+    <div *ngIf="users.length === 0" class="no-users">
+      No other users online yet
+    </div>
+  </div>
+</div>
