@@ -1,17 +1,7 @@
 <div class="sidebar">
   <div class="sidebar-header">
-    <div class="header-top">
-      <span class="title">Chat</span>
-      <div class="header-actions">
-        <button class="icon-btn" title="Filter">🔍</button>
-        <button class="icon-btn" title="New chat">✏️</button>
-      </div>
-    </div>
-  </div>
-
-  <div class="filter-tabs">
-    <button class="tab active">Recent</button>
-    <button class="tab">Pinned</button>
+    <span class="title">Chat</span>
+    <button class="new-chat-btn" title="New chat">✏️</button>
   </div>
 
   <div class="user-list">
@@ -24,22 +14,18 @@
         <span class="status-dot online"></span>
       </div>
       <div class="user-info">
-        <div class="user-header">
-          <span class="user-name">{{ user.name }}</span>
-          <span class="time" *ngIf="user.last_seen">{{ formatTime(user.last_seen) }}</span>
-        </div>
-        <div class="message-preview">
-          <span class="preview-text">{{ user.lastMessage || 'Start a conversation' }}</span>
+        <div class="user-name-row">
+          <div class="user-name">{{ user.name }}</div>
           <span *ngIf="getUnreadCount(user.name) > 0" class="unread-badge">
             {{ getUnreadCount(user.name) }}
           </span>
         </div>
+        <div class="last-seen">Online</div>
       </div>
     </div>
 
     <div *ngIf="users.length === 0" class="no-users">
-      <span class="empty-icon">💬</span>
-      <p>No other users online</p>
+      No other users online yet
     </div>
   </div>
 </div>
